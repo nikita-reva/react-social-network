@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Header, Segment, Form, Button } from 'semantic-ui-react'
 import cuid from 'cuid'
+import { Link } from 'react-router-dom'
 
 export default function EventForm({
 	setFormOpen,
@@ -106,10 +107,11 @@ export default function EventForm({
 					content="Submit"
 				/>
 				<Button
+					as={Link}
+					to="events"
 					type="submit"
 					floated="right"
 					content="Cancel"
-					onClick={() => setFormOpen(false)}
 				/>
 			</Form>
 		</Segment>
