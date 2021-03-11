@@ -1,16 +1,19 @@
 import React, { Fragment } from 'react'
-import { Route } from 'react-router'
+import { Route, useLocation } from 'react-router'
 import { Container } from 'semantic-ui-react'
 import EventDashboard from '../../features/events/eventDashboard/EventDashboard'
 import NavBar from '../../features/nav/NavBar'
 import HomePage from '../../features/home/HomePage'
 import EventForm from '../../features/events/eventForm/EventForm'
 import EventDetailedPage from '../../features/events/eventDetails/EventDetailedPage'
+import Sandbox from '../../features/sandbox/Sandbox'
 
 export default function App() {
 	/* Without JSX */
 	// const title = React.createElement('h1', {}, 'REvents without JSX')
 	// const div = React.createElement('div', { className: 'App' }, title)
+
+	const { key } = useLocation()
 
 	return (
 		<Fragment>
@@ -30,9 +33,11 @@ export default function App() {
 								path="/events/:id"
 								component={EventDetailedPage}
 							/>
+							<Route path="/sandbox" component={Sandbox} />
 							<Route
 								path={['/createEvent', '/manage/:id']}
 								component={EventForm}
+								key={key}
 							/>
 						</Container>
 					</>

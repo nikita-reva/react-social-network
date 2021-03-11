@@ -1,18 +1,27 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import 'semantic-ui-css/semantic.min.css'
-import './app/layout/styles.css'
-import App from './app/layout/App'
 import reportWebVitals from './reportWebVitals'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { Provider } from 'react-redux'
+
+import './app/layout/styles.css'
+import App from './app/layout/App'
+import { configureStore } from './app/store/configureStore'
+import ScrollToTop from './app/layout/ScrollToTop'
+
+const store = configureStore()
 
 const rootElement = document.getElementById('root')
 
 function render() {
 	ReactDOM.render(
-		<Router>
-			<App />
-		</Router>,
+		<Provider store={store}>
+			<Router>
+				<ScrollToTop />
+				<App />
+			</Router>
+		</Provider>,
 		rootElement
 	)
 }
