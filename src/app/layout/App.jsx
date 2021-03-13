@@ -7,6 +7,7 @@ import HomePage from '../../features/home/HomePage'
 import EventForm from '../../features/events/eventForm/EventForm'
 import EventDetailedPage from '../../features/events/eventDetails/EventDetailedPage'
 import Sandbox from '../../features/sandbox/Sandbox'
+import ModalManager from '../common/modals/ModalManager'
 
 export default function App() {
 	/* Without JSX */
@@ -22,6 +23,7 @@ export default function App() {
 				path={'/(.+)'}
 				render={() => (
 					<>
+						<ModalManager />
 						<NavBar />
 						<Container className="main">
 							<Route
