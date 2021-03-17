@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react'
 import { Route, useLocation } from 'react-router'
 import { Container } from 'semantic-ui-react'
+import { ToastContainer } from 'react-toastify'
+
 import EventDashboard from '../../features/events/eventDashboard/EventDashboard'
 import NavBar from '../../features/nav/NavBar'
 import HomePage from '../../features/home/HomePage'
@@ -24,6 +26,10 @@ export default function App() {
 				render={() => (
 					<>
 						<ModalManager />
+						<ToastContainer
+							position="bottom-right"
+							hideProgressBar
+						/>
 						<NavBar />
 						<Container className="main">
 							<Route
