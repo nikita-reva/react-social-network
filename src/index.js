@@ -11,11 +11,8 @@ import './app/layout/styles.css'
 import App from './app/layout/App'
 import { configureStore } from './app/store/configureStore'
 import ScrollToTop from './app/layout/ScrollToTop'
-import { loadEvents } from './features/events/eventActions'
 
 const store = configureStore()
-
-store.dispatch(loadEvents())
 
 const rootElement = document.getElementById('root')
 
