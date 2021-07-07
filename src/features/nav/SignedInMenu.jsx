@@ -11,8 +11,8 @@ export default function SignedInMenu() {
 
 	async function handleSignOut() {
 		try {
-			await signOutFirebase()
 			history.push('/')
+			await signOutFirebase()
 		} catch (error) {
 			toast.error(error.message)
 		}
@@ -20,8 +20,12 @@ export default function SignedInMenu() {
 
 	return (
 		<Menu.Item position="right">
-			<Image avatar spaced="right" src={currentUser.photoURL} />
-			<Dropdown pointing="top left" text={currentUser.email}>
+			<Image
+				avatar
+				spaced="right"
+				src={currentUser.photoURL || '/assets/user.png'}
+			/>
+			<Dropdown pointing="top left" text={currentUser.displayName}>
 				<Dropdown.Menu>
 					<Dropdown.Item
 						as={Link}
@@ -34,6 +38,12 @@ export default function SignedInMenu() {
 						to="/profile"
 						text="My Profile"
 						icon="user"
+					/>
+					<Dropdown.Item
+						as={Link}
+						to="/account"
+						text="My Account"
+						icon="settings"
 					/>
 					<Dropdown.Item
 						text="Sign Out"

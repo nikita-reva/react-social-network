@@ -28,7 +28,7 @@ export default function SocialLogin() {
 				icon="google"
 				fluid
 				color="google plus"
-				content="Login with Facebook"
+				content="Login with Google"
 			/>
 		</>
 	)

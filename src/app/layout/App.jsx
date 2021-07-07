@@ -11,6 +11,9 @@ import EventDetailedPage from '../../features/events/eventDetails/EventDetailedP
 import Sandbox from '../../features/sandbox/Sandbox'
 import ModalManager from '../common/modals/ModalManager'
 import ErrorComponent from '../common/errors/ErrorComponent'
+import AccountPage from '../../features/auth/AccountPage'
+import { useSelector } from 'react-redux'
+import LoadingComponent from './LoadingComponent'
 
 export default function App() {
 	/* Without JSX */
@@ -18,6 +21,9 @@ export default function App() {
 	// const div = React.createElement('div', { className: 'App' }, title)
 
 	const { key } = useLocation()
+	const { initialized } = useSelector((state) => state.async)
+
+	if (!initialized) return <LoadingComponent content="Loading App..." />
 
 	return (
 		<Fragment>
@@ -48,6 +54,7 @@ export default function App() {
 								component={EventForm}
 								key={key}
 							/>
+							<Route path="/account" component={AccountPage} />
 							<Route path="/error" component={ErrorComponent} />
 						</Container>
 					</>
