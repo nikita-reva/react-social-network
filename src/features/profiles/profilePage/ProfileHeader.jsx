@@ -9,7 +9,7 @@ import {
 	Button,
 } from 'semantic-ui-react'
 
-export default function ProfileHeader() {
+export default function ProfileHeader({ profile, isCurrentUser }) {
 	return (
 		<Segment>
 			<Grid>
@@ -18,13 +18,13 @@ export default function ProfileHeader() {
 						<Item.Image
 							avatar
 							size="small"
-							src="/assets/user.png"
+							src={profile.photoURL || '/assets/user.png'}
 						/>
 						<Item.Content verticalAlign="middle">
 							<Header
 								as="h1"
 								style={{ display: 'block', marginBottom: 10 }}
-								content="Display Name"
+								content={profile.displayName}
 							/>
 						</Item.Content>
 					</Item.Group>
@@ -34,20 +34,34 @@ export default function ProfileHeader() {
 						<Statistic label="Followers" value={10} />
 						<Statistic label="Following" value={12} />
 					</Statistic.Group>
-					<Divider />
-					<Reveal animated="move">
-						<Reveal.Content visible style={{ width: '100%' }}>
-							<Button fluid color="teal" content="Following" />
-						</Reveal.Content>
-						<Reveal.Content hidden style={{ width: '100%' }}>
-							<Button
-								basic
-								fluid
-								color="red"
-								content="Unfollow"
-							/>
-						</Reveal.Content>
-					</Reveal>
+					{!isCurrentUser && (
+						<>
+							<Divider />
+							<Reveal animated="move">
+								<Reveal.Content
+									visible
+									style={{ width: '100%' }}
+								>
+									<Button
+										fluid
+										color="teal"
+										content="Following"
+									/>
+								</Reveal.Content>
+								<Reveal.Content
+									hidden
+									style={{ width: '100%' }}
+								>
+									<Button
+										basic
+										fluid
+										color="red"
+										content="Unfollow"
+									/>
+								</Reveal.Content>
+							</Reveal>
+						</>
+					)}
 				</Grid.Column>
 			</Grid>
 		</Segment>
