@@ -17,10 +17,6 @@ import LoadingComponent from './LoadingComponent'
 import ProfilePage from '../../features/profiles/profilePage/ProfilePage'
 
 export default function App() {
-	/* Without JSX */
-	// const title = React.createElement('h1', {}, 'REvents without JSX')
-	// const div = React.createElement('div', { className: 'App' }, title)
-
 	const { key } = useLocation()
 	const { initialized } = useSelector((state) => state.async)
 
