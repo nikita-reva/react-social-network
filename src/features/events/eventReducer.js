@@ -1,11 +1,15 @@
 import {
   CLEAR_COMMENTS,
   CLEAR_EVENTS,
+  CLEAR_SELECTED_EVENT,
   CREATE_EVENT,
   DELETE_EVENT,
   FETCH_EVENTS,
   LISTEN_TO_EVENT_CHAT,
   LISTEN_TO_SELECTED_EVENT,
+  RETAIN_STATE,
+  SET_FILTER,
+  SET_START_DATE,
   UPDATE_EVENT,
 } from './eventConstants';
 
@@ -14,6 +18,10 @@ const initialState = {
   moreEvents: true,
   comments: [],
   selectedEvent: null,
+  lastVisible: null,
+  filter: 'all',
+  startDate: new Date(),
+  retainState: false,
 };
 
 export default function eventReducer(state = initialState, { type, payload }) {
@@ -41,6 +49,7 @@ export default function eventReducer(state = initialState, { type, payload }) {
         ...state,
         events: [...state.events, ...payload.events],
         moreEvents: payload.moreEvents,
+        lastVisible: payload.lastVisible,
       };
     case LISTEN_TO_EVENT_CHAT:
       return {
@@ -57,11 +66,38 @@ export default function eventReducer(state = initialState, { type, payload }) {
         ...state,
         selectedEvent: payload,
       };
+    case CLEAR_SELECTED_EVENT:
+      return {
+        ...state,
+        selectedEvent: null,
+      };
     case CLEAR_EVENTS:
       return {
         ...state,
         events: [],
+        retainState: false,
         moreEvents: true,
+        lastVisible: null,
+      };
+    case SET_FILTER:
+      return {
+        ...state,
+        retainState: false,
+        moreEvents: true,
+        filter: payload,
+      };
+    case SET_START_DATE:
+      console.log(payload);
+      return {
+        ...state,
+        retainState: false,
+        moreEvents: true,
+        startDate: payload,
+      };
+    case RETAIN_STATE:
+      return {
+        ...state,
+        retainState: true,
       };
     default:
       return state;

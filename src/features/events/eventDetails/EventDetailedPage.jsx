@@ -17,9 +17,9 @@ export default function EventDetailedPage({ match }) {
   const { currentUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const { loading, error } = useSelector((state) => state.async);
-  const isHost = selectedEvent?.hostUid === currentUser.uid;
+  const isHost = selectedEvent?.hostUid === currentUser?.uid;
   const isGoing = selectedEvent?.attendees?.some(
-    (a) => a.id === currentUser.uid
+    (a) => a.id === currentUser?.uid
   );
 
   useFirestoreDocument({
