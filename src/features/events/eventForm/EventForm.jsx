@@ -1,5 +1,5 @@
 /* global google */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Header, Segment, Button, Confirm } from 'semantic-ui-react';
 import { Link, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,7 +7,11 @@ import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
-import { clearSelectedEvent, listenToSelectedEvent } from '../eventActions';
+import {
+  clearSelectedEvent,
+  listenToSelectedEvent,
+  updateEvent,
+} from '../eventActions';
 import MyTextInput from '../../../app/common/form/MyTextInput';
 import MyTextArea from '../../../app/common/form/MyTextArea';
 import MySelectInput from '../../../app/common/form/MySelectInput';
@@ -22,14 +26,13 @@ import {
   updateEventInFirestore,
 } from '../../../app/firestore/firestoreService';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
+import { CLEAR_EVENTS, DISCARD_STATE } from '../eventConstants';
 
 export default function EventForm({ match, history, location }) {
   const dispatch = useDispatch();
   const [loadingCancel, setLoadingCancel] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
-
   const { selectedEvent } = useSelector((state) => state.event);
-
   const { loading, error } = useSelector((state) => state.async);
 
   useEffect(() => {
@@ -71,9 +74,11 @@ export default function EventForm({ match, history, location }) {
     setLoadingCancel(true);
     try {
       await cancelEventToggle(event);
+      dispatch({ type: DISCARD_STATE });
+      dispatch({ type: CLEAR_EVENTS });
       setLoadingCancel(false);
     } catch (error) {
-      setLoadingCancel(true);
+      setLoadingCancel(false);
       toast.error(error.message);
     }
   }
@@ -83,8 +88,9 @@ export default function EventForm({ match, history, location }) {
     data: (event) => dispatch(listenToSelectedEvent(event)),
     deps: [match.params.id, dispatch],
     shouldExecute:
-      match.params.id !== selectedEvent?.id &&
-      location.pathname !== '/createEvent',
+      (match.params.id !== selectedEvent?.id &&
+        location.pathname !== '/createEvent') ||
+      match.params.id === selectedEvent?.id,
   });
 
   if (loading) return <LoadingComponent content="Loading event..." />;
@@ -153,9 +159,9 @@ export default function EventForm({ match, history, location }) {
                 loading={loadingCancel}
                 floated="left"
                 type="button"
-                color={selectedEvent.isCancelled ? 'green' : 'red'}
+                color={selectedEvent?.isCancelled ? 'green' : 'red'}
                 content={
-                  selectedEvent.isCancelled
+                  selectedEvent?.isCancelled
                     ? 'Reactivate Event'
                     : 'Cancel Event'
                 }
@@ -175,7 +181,7 @@ export default function EventForm({ match, history, location }) {
             <Button
               disabled={isSubmitting}
               as={Link}
-              to="events"
+              to="/events"
               type="submit"
               floated="right"
               content="Cancel"
@@ -183,7 +189,7 @@ export default function EventForm({ match, history, location }) {
             <Confirm
               content={`This will ${
                 selectedEvent?.isCancelled ? 'reactivate' : 'cancel'
-              } reactivate the event - are you sure?`}
+              } the event - are you sure?`}
               open={confirmOpen}
               onCancel={() => setConfirmOpen(false)}
               onConfirm={() => {
