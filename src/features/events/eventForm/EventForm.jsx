@@ -1,5 +1,5 @@
 /* global google */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Header, Segment, Button, Confirm } from 'semantic-ui-react';
 import { Link, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,11 +7,7 @@ import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
-import {
-  clearSelectedEvent,
-  listenToSelectedEvent,
-  updateEvent,
-} from '../eventActions';
+import { clearSelectedEvent, listenToSelectedEvent } from '../eventActions';
 import MyTextInput from '../../../app/common/form/MyTextInput';
 import MyTextArea from '../../../app/common/form/MyTextArea';
 import MySelectInput from '../../../app/common/form/MySelectInput';
