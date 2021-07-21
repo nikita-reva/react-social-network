@@ -83,10 +83,7 @@ export default function EventForm({ match, history, location }) {
     query: () => listenToEventFromFirestore(match.params.id),
     data: (event) => dispatch(listenToSelectedEvent(event)),
     deps: [match.params.id, dispatch],
-    shouldExecute:
-      (match.params.id !== selectedEvent?.id &&
-        location.pathname !== '/createEvent') ||
-      match.params.id === selectedEvent?.id,
+    shouldExecute: location.pathname !== '/createEvent',
   });
 
   if (loading) return <LoadingComponent content="Loading event..." />;
